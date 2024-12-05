@@ -10,7 +10,7 @@ e = encrypt()
 d = decrypt()
 f = filemsg()
 OUTPUT_FILE = "output.txt"
-LOGO = "asset/logo.png"
+LOGO = "projectpy/image/logo.png"
 
 
 # Function to handle encryption and decryption
