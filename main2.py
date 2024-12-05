@@ -64,7 +64,7 @@ def create_app():
     logo_label.pack( padx=10)
 
     # Add the title text next to the logo
-    title_label = ctk.CTkLabel(header_frame, text="SSNG", font=("Helvetica", 40, "bold"))
+    title_label = ctk.CTkLabel(header_frame, text="SAR SOM NGAT", font=("Helvetica", 40, "bold"))
     title_label.pack(padx=10)
     # Input Section
     input_frame = ctk.CTkFrame(app, corner_radius=15)
@@ -72,19 +72,21 @@ def create_app():
 
     message_label = ctk.CTkLabel(input_frame, text="Message:", font=("Helvetica", 14))
     message_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-    input_text = ctk.CTkTextbox(input_frame, height=70, font=("Helvetica", 12))
+    input_text = ctk.CTkTextbox(input_frame, height=70, font=("Helvetica", 16))
     input_text.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+    choose_file = ctk.CTkButton(input_frame, text="Choose File",font=("romnea",13), command=lambda: copy_to_clipboard(output_text.get("1.0", "end-1c")))
+    choose_file.grid(row=0, column=2, padx=10)
 
     password_label = ctk.CTkLabel(input_frame, text="Password:", font=("Helvetica", 14))
     password_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-    password_entry = ctk.CTkEntry(input_frame, font=("Helvetica", 12))
+    password_entry = ctk.CTkEntry(input_frame, font=("Helvetica", 16))
     password_entry.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
 
     input_frame.grid_columnconfigure(1, weight=1)
 
     # Action Selection
     action_frame = ctk.CTkFrame(app, corner_radius=15)
-    action_frame.pack(pady=10, padx=20, fill="x")
+    action_frame.pack(pady=5, padx=20, fill="x")
 
     action_var = ctk.StringVar(value="Encrypt")
     action_label = ctk.CTkLabel(action_frame, text="Select Action:", font=("Helvetica", 14))
@@ -100,16 +102,16 @@ def create_app():
 
     output_label = ctk.CTkLabel(output_frame, text="Results:", font=("Helvetica", 14))
     output_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-    output_text = ctk.CTkTextbox(output_frame, height=70, font=("Helvetica", 12))
+    output_text = ctk.CTkTextbox(output_frame, height=70, font=("Helvetica", 16))
     output_text.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
-    copy_button = ctk.CTkButton(output_frame, text="Copy", command=lambda: copy_to_clipboard(output_text.get("1.0", "end-1c")))
+    copy_button = ctk.CTkButton(output_frame, text="Copy",font=("romnea",13), command=lambda: copy_to_clipboard(output_text.get("1.0", "end-1c")))
     copy_button.grid(row=0, column=2, padx=10)
 
     output_frame.grid_columnconfigure(1, weight=1)
 
     # Perform Action Button
-    action_button = ctk.CTkButton(app, text="Perform Action", font=("Helvetica", 14), command=lambda: perform_action(input_text, output_text, password_entry, action_var))
-    action_button.pack(pady=20)
+    action_button = ctk.CTkButton(app, text="Start", font=("romnea", 14), command=lambda: perform_action(input_text, output_text, password_entry, action_var))
+    action_button.pack(pady=15)
 
     app.mainloop()
 
