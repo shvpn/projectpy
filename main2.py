@@ -9,6 +9,8 @@ from filemsg import filemsg
 e = encrypt()
 d = decrypt()
 f = filemsg()
+OUTPUT_FILE = "output.txt"
+LOGO = "asset/logo.png"
 
 
 # Function to handle encryption and decryption
@@ -78,7 +80,7 @@ def create_app():
     header_frame.pack(pady=20, padx=20, fill="x")
 
     # Load the logo image
-    logo_image = ctk.CTkImage(Image.open("ok6.png"), size=(100, 100))  # Adjust size as needed
+    logo_image = ctk.CTkImage(Image.open(LOGO), size=(100, 100))  # Adjust size as needed
 
     # Add the logo image to a label
     logo_label = ctk.CTkLabel(header_frame, image=logo_image, text="", width=100, height=100)
