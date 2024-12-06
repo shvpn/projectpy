@@ -64,7 +64,6 @@ def insert_text_to_input(input_field):
 # Main application function
 def create_app():
     # Configure the appearance of customtkinter
-    # ctk.set_appearance_mode("Dark")  # Modes: "Dark", "Light"
     def switch_event():
     # print("switch toggled, current value:", switch_var.get())
         if switch_var.get() == "off":
@@ -96,7 +95,6 @@ def create_app():
     title_label.pack(padx=10)
 
     # Switch colors
-
     switch_var = ctk.StringVar(value="off")
     switch = ctk.CTkSwitch(header_frame, text="Dark/Light", font=("Helvetica", 16), command=switch_event,variable=switch_var, onvalue="on", offvalue="off")
     switch.pack(pady=20, padx=20,side="right")
@@ -118,8 +116,7 @@ def create_app():
 
     input_frame.grid_columnconfigure(1, weight=1)
 
-    # Action Selection
-    
+    # Action Selection  
     action_frame = ctk.CTkFrame(app, corner_radius=15)
     action_frame.pack(pady=5, padx=20, fill="x")
 
@@ -130,35 +127,61 @@ def create_app():
     encrypt_radio.pack(side="left", padx=10)
     decrypt_radio = ctk.CTkRadioButton(action_frame, text="Decrypt", variable=action_var, value="Decrypt")
     decrypt_radio.pack(side="left", padx=10)
+
+     # Function Choose location to store the output
+    def choose_location():
+        if switch_var.get() == "none":
+            choose_location.pack_forget()
+            output_frame1.pack_forget()
+            action_button1.pack_forget()
+            output_frame1.pack(pady=20, padx=20, fill="x")
+            action_button1.pack(pady=15)
+
+        elif switch_var.get() == "File":
+            output_frame1.pack_forget()
+            action_button1.pack_forget()
+            choose_location.pack(pady=20, padx=20, fill="x")
+            output_frame1.pack(pady=20, padx=20, fill="x")
+            action_button1.pack(pady=15)
+
     # Output Selection
     OP_frame = ctk.CTkFrame(action_frame, corner_radius=0, fg_color="transparent")
     OP_frame.pack(padx=5, fill="x")
-
+    switch_var = ctk.StringVar(value="none")
     out_var = ctk.StringVar(value="none")
-    file_radio = ctk.CTkRadioButton(OP_frame, text="File", variable=out_var, value="File")
+    file_radio = ctk.CTkRadioButton(OP_frame, text="File", command=choose_location, variable=switch_var, value="File", )
     file_radio.pack(side="right", padx=10)
-    none_radio = ctk.CTkRadioButton(OP_frame, text="None", variable=out_var, value="none", fg_color="red")
+    none_radio = ctk.CTkRadioButton(OP_frame, text="None", command=choose_location, variable=switch_var, value="none", fg_color="red")
     none_radio.pack(side="right", padx=10)
     action_label = ctk.CTkLabel(OP_frame, text="Select Output:", font=("Helvetica", 14))
     action_label.pack(side="right", padx=10)
     
+    # choose location store results 
+    choose_location = ctk.CTkFrame(app, corner_radius=15)
+    message_label2 = ctk.CTkLabel(choose_location, text="Store Results In:", font=("Helvetica", 14))
+    message_label2.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+    input_text2 = ctk.CTkEntry(choose_location, font=("Helvetica", 16))
+    input_text2.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+    choose_file2 = ctk.CTkButton(choose_location, text="Choose File",font=("romnea",13))
+    choose_file2.grid(row=0, column=2, padx=10, sticky="w")
+    choose_location.grid_columnconfigure(1, weight=1)  
 
-    # Output Section  
-    output_frame = ctk.CTkFrame(app, corner_radius=15)
-    output_frame.pack(pady=20, padx=20, fill="x")
+    # Output Results  
+    output_frame1 = ctk.CTkFrame(app, corner_radius=15)
+    output_frame1.pack(pady=20, padx=20, fill="x")
 
-    output_label = ctk.CTkLabel(output_frame, text="Results:", font=("Helvetica", 14))
+    output_label = ctk.CTkLabel(output_frame1, text="Results:", font=("Helvetica", 14))
     output_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-    output_text = ctk.CTkTextbox(output_frame, height=70, font=("Helvetica", 16))
+    output_text = ctk.CTkTextbox(output_frame1, height=70, font=("Helvetica", 16))
     output_text.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
-    copy_button = ctk.CTkButton(output_frame, text="Copy",font=("romnea",13), command=lambda: copy_to_clipboard(output_text.get("1.0", "end-1c"))) # 1.0 is the start of the text and end-1c is the end of the text
+    copy_button = ctk.CTkButton(output_frame1, text="Copy",font=("romnea",13), command=lambda: copy_to_clipboard(output_text.get("1.0", "end-1c"))) # 1.0 is the start of the text and end-1c is the end of the text
     copy_button.grid(row=0, column=2, padx=10)
 
-    output_frame.grid_columnconfigure(1, weight=1)
+    output_frame1.grid_columnconfigure(1, weight=1)
 
     # Perform Action Button
-    action_button = ctk.CTkButton(app, text="Start", font=("romnea", 14), command=lambda: perform_action(input_text, output_text, password_entry, action_var, out_var))
-    action_button.pack(pady=15)
+    action_button1 = ctk.CTkButton(app, text="Start", font=("romnea", 14), command=lambda: perform_action(input_text, output_text, password_entry, action_var, out_var))
+    action_button1.pack(pady=15)
 
     app.mainloop()
 

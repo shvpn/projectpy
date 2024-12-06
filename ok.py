@@ -1,94 +1,106 @@
+# import customtkinter as ctk
+
+# # Main Application
+# def create_app():
+#     app = ctk.CTk()
+#     app.title("CustomTkinter Example")
+#     app.geometry("600x600")
+
+#     # Tabs using CTkTabview
+#     tabview = ctk.CTkTabview(app, width=400, height=300)
+#     tabview.pack(pady=20, padx=20, fill="x")
+
+#     tab1 = tabview.add("Tab 1")
+#     tab2 = tabview.add("Tab 2")
+#     tab3 = tabview.add("Tab 3")
+#     tabview.set("Tab 1")  # Set default tab
+
+#     # Widgets for Tab 1
+#     optionmenu_var = ctk.StringVar(value="Option 1")
+#     optionmenu = ctk.CTkOptionMenu(tab1, values=["Option 1", "Option 2", "Option 3"], variable=optionmenu_var)
+#     optionmenu.pack(pady=10, padx=20)
+
+#     combobox_var = ctk.StringVar(value="Select Item")
+#     combobox = ctk.CTkComboBox(tab1, values=["Item 1", "Item 2", "Item 3"], variable=combobox_var)
+#     combobox.pack(pady=10, padx=20)
+
+#     # Widgets for Tab 2
+#     radio_var = ctk.StringVar(value="Radio 1")
+#     radio_frame = ctk.CTkFrame(tab2, corner_radius=10)
+#     radio_frame.pack(pady=20, padx=20, fill="both", expand=True)
+
+#     radio_label = ctk.CTkLabel(radio_frame, text="CTkRadioButton Group:")
+#     radio_label.pack(pady=5)
+
+#     radio1 = ctk.CTkRadioButton(radio_frame, text="CTkRadioButton", variable=radio_var, value="Radio 1")
+#     radio1.pack(pady=5)
+
+#     radio2 = ctk.CTkRadioButton(radio_frame, text="CTkRadioButton", variable=radio_var, value="Radio 2")
+#     radio2.pack(pady=5)
+
+#     radio3 = ctk.CTkRadioButton(radio_frame, text="CTkRadioButton", variable=radio_var, value="Radio 3")
+#     radio3.pack(pady=5)
+
+#     # Widgets for Tab 3
+#     checkbox_frame = ctk.CTkFrame(tab3, corner_radius=10)
+#     checkbox_frame.pack(pady=20, padx=20, fill="both", expand=True)
+
+#     checkbox_label = ctk.CTkLabel(checkbox_frame, text="CTkCheckBox Group:")
+#     checkbox_label.pack(pady=5)
+
+#     checkbox1 = ctk.CTkCheckBox(checkbox_frame, text="CTkCheckBox")
+#     checkbox1.pack(pady=5)
+
+#     checkbox2 = ctk.CTkCheckBox(checkbox_frame, text="CTkCheckBox")
+#     checkbox2.pack(pady=5)
+
+#     checkbox3 = ctk.CTkCheckBox(checkbox_frame, text="CTkCheckBox", state="disabled")
+#     checkbox3.pack(pady=5)
+
+#     # Scrollable Frame
+#     scrollable_frame = ctk.CTkScrollableFrame(app, label_text="CTkScrollableFrame")
+#     scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
+
+#     for i in range(5):  # Adding multiple switches to the scrollable frame
+#         switch = ctk.CTkSwitch(scrollable_frame, text=f"CTkSwitch {i}")
+#         switch.grid(row=i, column=0, padx=10, pady=10)
+
+#     app.mainloop()
+
+
+# if __name__ == "__main__":
+#     create_app()
+
 import customtkinter as ctk
-from PIL import Image
-import math
 
+# Initialize the app
+app = ctk.CTk()
+app.geometry("400x300")
 
-# Function to interpolate between two colors
-def interpolate_color(color1, color2, t):
-    """Linearly interpolate between two HEX colors."""
-    r1, g1, b1 = int(color1[1:3], 16), int(color1[3:5], 16), int(color1[5:7], 16)
-    r2, g2, b2 = int(color2[1:3], 16), int(color2[3:5], 16), int(color2[5:7], 16)
+def show_frame1():
+    frame2.pack_forget()
+    frame1.pack()
 
-    r = int(r1 + (r2 - r1) * t)
-    g = int(g1 + (g2 - g1) * t)
-    b = int(b1 + (b2 - b1) * t)
-    return f"#{r:02x}{g:02x}{b:02x}"  # Convert back to HEX
+def show_frame2():
+    frame1.pack_forget()
+    frame2.pack()
 
+# Frame 1
+frame1 = ctk.CTkFrame(app, width=300, height=200)
+frame1.pack()
+label1 = ctk.CTkLabel(frame1, text="This is Frame 1")
+label1.pack()
 
-# Easing function (ease in-out cubic)
-def ease_in_out_cubic(t):
-    """Cubic easing function for smooth acceleration and deceleration."""
-    if t < 0.5:
-        return 4 * t * t * t
-    return 1 - math.pow(-2 * t + 2, 3) / 2
+# Frame 2
+frame2 = ctk.CTkFrame(app, width=300, height=200)
+label2 = ctk.CTkLabel(frame2, text="This is Frame 2")
+label2.pack()
 
+# Buttons to switch between frames
+btn1 = ctk.CTkButton(app, text="Show Frame 1", command=show_frame1)
+btn1.pack(side="left", padx=10)
 
-# Smooth background transition
-def smooth_background_transition(app, start_color, end_color, duration=2):
-    """Smoothly change background color of the main window."""
-    steps = 300  # Number of steps for transition
-    delay = int(duration * 1000 / steps)  # Time delay between steps in milliseconds
+btn2 = ctk.CTkButton(app, text="Show Frame 2", command=show_frame2)
+btn2.pack(side="right", padx=10)
 
-    def update_color(step):
-        if step <= steps:
-            t = step / steps
-            eased_t = ease_in_out_cubic(t)  # Apply easing for smoothness
-            new_color = interpolate_color(start_color, end_color, eased_t)
-            app.configure(bg=new_color)  # Change only the window background
-            app.after(delay, update_color, step + 1)  # Schedule the next step
-
-    update_color(0)  # Start the transition
-
-
-# Main application
-def create_app():
-    def switch_event():
-        if switch_var.get() == "on":
-            ctk.set_appearance_mode("Light")
-            smooth_background_transition(app, "#2b2b2b", "#ffffff", duration=2)  # Dark to Light
-        else:
-            ctk.set_appearance_mode("Dark")
-            smooth_background_transition(app, "#ffffff", "#2b2b2b", duration=2)  # Light to Dark
-
-    ctk.set_default_color_theme("green")  # Themes: "blue", "green", "dark-blue"
-
-    app = ctk.CTk()
-    app.title("SAR SOM NGAT")
-    app.geometry("900x600")
-
-    # Set default background color
-    app.configure(bg="#2b2b2b")  # Default dark background
-
-    # Header
-    header_frame = ctk.CTkFrame(app, corner_radius=15)
-    header_frame.pack(pady=20, padx=20, fill="x")
-
-    # Load the logo image
-    logo_image = ctk.CTkImage(Image.open("projectpy/image/logo.png"), size=(100, 100))  # Adjust size as needed
-
-    # Add the logo image to a label
-    logo_label = ctk.CTkLabel(header_frame, image=logo_image, text="", width=100, height=100)
-    logo_label.pack(padx=10)
-
-    # Add the title text next to the logo
-    title_label = ctk.CTkLabel(header_frame, text="SAR SOM NGAT", font=("Helvetica", 40, "bold"))
-    title_label.pack(padx=10)
-
-    # Dark/Light Mode Switch
-    switch_var = ctk.StringVar(value="off")
-    switch = ctk.CTkSwitch(
-        header_frame,
-        text="Dark/Light",
-        font=("Helvetica", 16),
-        command=switch_event,
-        variable=switch_var,
-        offvalue="off",
-        onvalue="on",
-    )
-    switch.pack(pady=20, padx=20, side="right")
-
-    app.mainloop()
-
-
-if __name__ == "__main__":
-    create_app()
+app.mainloop()
