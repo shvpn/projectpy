@@ -11,6 +11,7 @@ d = decrypt()
 f = filemsg()
 OUTPUT_FILE = "output.txt"
 LOGO = "projectpy/image/logo.png"
+LOGO1 = "image/logo.png"
 
 
 # Function to handle encryption and decryption
@@ -80,7 +81,10 @@ def create_app():
     header_frame.pack(pady=20, padx=20, fill="x")
 
     # Load the logo image
-    logo_image = ctk.CTkImage(Image.open(LOGO), size=(100, 100))  # Adjust size as needed
+    try:
+        logo_image = ctk.CTkImage(Image.open(LOGO), size=(100, 100))  # Adjust size as needed
+    except:
+        logo_image = ctk.CTkImage(Image.open(LOGO1), size=(100, 100))
 
     # Add the logo image to a label
     logo_label = ctk.CTkLabel(header_frame, image=logo_image, text="", width=100, height=100)
