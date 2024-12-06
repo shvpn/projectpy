@@ -67,10 +67,10 @@ def create_app():
     # ctk.set_appearance_mode("Dark")  # Modes: "Dark", "Light"
     def switch_event():
     # print("switch toggled, current value:", switch_var.get())
-        if switch_var.get() == "off":
-            ctk.set_appearance_mode("Dark")  # Modes: "Dark", "Light"
-        else:       
+        if switch_var.get() == "on":
             ctk.set_appearance_mode("Light")
+        else:       
+            ctk.set_appearance_mode("Dark")  # Modes: "Dark", "Light"
 
     ctk.set_default_color_theme("green")  # Themes: "blue", "green", "dark-blue"
 
@@ -98,7 +98,7 @@ def create_app():
     # Switch colors
 
     switch_var = ctk.StringVar(value="off")
-    switch = ctk.CTkSwitch(header_frame, text="Dark/Light", font=("Helvetica", 16), command=switch_event,variable=switch_var, onvalue="on", offvalue="off")
+    switch = ctk.CTkSwitch(header_frame, text="Dark/Light", font=("Helvetica", 16), command=switch_event,variable=switch_var, offvalue="off", onvalue="on")
     switch.pack(pady=20, padx=20,side="right")
     # Input Section
     input_frame = ctk.CTkFrame(app, corner_radius=15)
