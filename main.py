@@ -4,6 +4,7 @@ from encrypt import encrypt
 from decrypt import decrypt
 from PIL import Image
 from filemsg import filemsg
+from asset.mydailog import CustomDialog
 
 # Initialize Encrypt and Decrypt objects
 e = encrypt()
@@ -11,7 +12,6 @@ d = decrypt()
 f = filemsg()
 OUTPUT_FILE = "output.txt"
 LOGO = "projectpy/image/logo.png"
-
 
 # Function to handle encryption and decryption
 def perform_action(input_field, output_field, password_field, action_var, out_var):
@@ -25,12 +25,12 @@ def perform_action(input_field, output_field, password_field, action_var, out_va
     out_type = out_var.get()
     try:
         if out_type == "File":
-            messagebox.showinfo("File", "Pg cham Code bos VAnndy tuk out put file")
+            messagebox.showinfo("File", "Output saved to file!")
         elif out_type == "none":
             pass
     except Exception as err:
         messagebox.showerror("Action Error", str(err))
-
+      
     try:
         if action == "Encrypt":
             result = e.encrypt(message, password) # Encrypt the message
@@ -61,6 +61,7 @@ def insert_text_to_input(input_field):
     input_field.insert("1.0", text)
     messagebox.showinfo("Text Loaded", "Text loaded successfully!")
     
+
 # Main application function
 def create_app():
     # Configure the appearance of customtkinter
@@ -72,11 +73,18 @@ def create_app():
             ctk.set_appearance_mode("Light")
 
     ctk.set_default_color_theme("green")  # Themes: "blue", "green", "dark-blue"
-
     app = ctk.CTk()
+
     app.title("SAR SOM NGAT") # Set the title of the window
     app.geometry("900x600")
     #set the icon
+    
+    
+    try:
+        app.iconbitmap("projectpy/image/logo.ico")
+    except:
+        app.iconbitmap("image/logo.ico")
+    
 
 
     # Header
