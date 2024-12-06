@@ -26,3 +26,20 @@ class filemsg:
         else:
             return self.msg
             messagebox.showinfo("File Loaded", "Message loaded successfully!")
+    def get_only_path(self): #sectct path to output folder
+
+        root = ctk.CTk()
+        try:
+            self.input_path = ctk.filedialog.askdirectory()
+            root.destroy() # Close the window
+            if self.input_path:
+                return self.input_path
+            else:
+                raise ValueError("No file selected")
+        except Exception as e:
+            return "File Not Loaded"
+            messagebox.showerror("File Error", str(e))
+        else:
+            return self.input_path
+            messagebox.showinfo("File Loaded", "Message loaded successfully!")
+        
