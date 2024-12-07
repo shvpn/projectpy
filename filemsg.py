@@ -35,11 +35,9 @@ class filemsg:
             if self.input_path:
                 return self.input_path
             else:
-                raise ValueError("No file selected")
+                raise ValueError("No file selected, Or File Not Loaded")
         except Exception as e:
             return "File Not Loaded"
-            messagebox.showerror("File Error", str(e))
         else:
             return self.input_path
-            messagebox.showinfo("File Loaded", "Message loaded successfully!")
         

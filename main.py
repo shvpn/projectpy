@@ -12,9 +12,10 @@ d = decrypt()
 f = filemsg()
 OUTPUT_FILE = "output.txt"
 LOGO = "projectpy/image/logo.png"
+LOGO1 = "image/logo.png"
 
 # Function to handle encryption and decryption
-def perform_action(input_field, output_field, password_field, action_var, out_var):
+def perform_action(input_field, output_field, password_field, action_var, out_var,op_path=""):
     message = input_field.get("1.0", "end-1c").strip() # 1.0 is the start of the text and end-1c is the end of the text without the last character (newline) 
     password = password_field.get().strip() # Remove leading and trailing whitespaces
     if not message or not password:
@@ -25,7 +26,9 @@ def perform_action(input_field, output_field, password_field, action_var, out_va
     out_type = out_var.get()
     try:
         if out_type == "File":
-            messagebox.showinfo("File", "Output saved to file!")
+            if op_path == "":
+                raise ValueError("No output path selected")
+            messagebox.showinfo("File", "Output saved to "+op_path)
         elif out_type == "none":
             pass
     except Exception as err:
@@ -60,6 +63,10 @@ def insert_text_to_input(input_field):
     input_field.delete("1.0", "end") # 1.0 is the start of the text and end is the end of the text
     input_field.insert("1.0", text)
     messagebox.showinfo("Text Loaded", "Text loaded successfully!")
+def get_path_and_insert_text_to_input(input_field):
+    text = f.get_only_path()
+    input_field.delete("1.0", "end") # 1.0 is the start of the text and end is the end of the text
+    input_field.insert("1.0", text)
     
 
 # Main application function
@@ -88,11 +95,13 @@ def create_app():
 
     # Header
     header_frame = ctk.CTkFrame(app, corner_radius=15)
-    header_frame.pack(pady=20, padx=20, fill="x")
+    header_frame.pack(pady=10, padx=20, fill="x")
 
     # Load the logo image
-    logo_image = ctk.CTkImage(Image.open(LOGO), size=(100, 100))  # Adjust size as needed
-
+    try:
+        logo_image = ctk.CTkImage(Image.open(LOGO1), size=(100, 100))  # Adjust size as needed
+    except:
+        logo_image = ctk.CTkImage(Image.open(LOGO), size=(100, 100))
     # Add the logo image to a label
     logo_label = ctk.CTkLabel(header_frame, image=logo_image, text="", width=100, height=100)
     logo_label.pack( padx=10)
@@ -104,10 +113,10 @@ def create_app():
     # Switch colors
     switch_var = ctk.StringVar(value="off")
     switch = ctk.CTkSwitch(header_frame, text="Dark/Light", font=("Helvetica", 16), command=switch_event,variable=switch_var, onvalue="on", offvalue="off")
-    switch.pack(pady=20, padx=20,side="right")
+    switch.pack(pady=10, padx=20,side="right")
     # Input Section
     input_frame = ctk.CTkFrame(app, corner_radius=15)
-    input_frame.pack(pady=20, padx=20, fill="x")
+    input_frame.pack(pady=10, padx=20, fill="x")
 
     message_label = ctk.CTkLabel(input_frame, text="Message:", font=("Helvetica", 14))
     message_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
@@ -137,28 +146,27 @@ def create_app():
 
      # Function Choose location to store the output
     def choose_location():
-        if switch_var.get() == "none":
+        if out_var.get() == "none":
             choose_location.pack_forget()
             output_frame1.pack_forget()
             action_button1.pack_forget()
-            output_frame1.pack(pady=20, padx=20, fill="x")
+            output_frame1.pack(pady=5, padx=20, fill="x")
             action_button1.pack(pady=15)
 
-        elif switch_var.get() == "File":
+        elif out_var.get() == "File":
             output_frame1.pack_forget()
             action_button1.pack_forget()
-            choose_location.pack(pady=20, padx=20, fill="x")
-            output_frame1.pack(pady=20, padx=20, fill="x")
-            action_button1.pack(pady=15)
+            choose_location.pack(pady=10, padx=20, fill="x")
+            output_frame1.pack(pady=5, padx=20, fill="x")
+            action_button1.pack(pady=5)
 
     # Output Selection
     OP_frame = ctk.CTkFrame(action_frame, corner_radius=0, fg_color="transparent")
     OP_frame.pack(padx=5, fill="x")
-    switch_var = ctk.StringVar(value="none")
     out_var = ctk.StringVar(value="none")
-    file_radio = ctk.CTkRadioButton(OP_frame, text="File", command=choose_location, variable=switch_var, value="File", )
+    file_radio = ctk.CTkRadioButton(OP_frame, text="File", command=choose_location, variable=out_var, value="File", )
     file_radio.pack(side="right", padx=10)
-    none_radio = ctk.CTkRadioButton(OP_frame, text="None", command=choose_location, variable=switch_var, value="none", fg_color="red")
+    none_radio = ctk.CTkRadioButton(OP_frame, text="None", command=choose_location, variable=out_var, value="none", fg_color="red")
     none_radio.pack(side="right", padx=10)
     action_label = ctk.CTkLabel(OP_frame, text="Select Output:", font=("Helvetica", 14))
     action_label.pack(side="right", padx=10)
@@ -166,16 +174,16 @@ def create_app():
     # choose location store results 
     choose_location = ctk.CTkFrame(app, corner_radius=15)
     message_label2 = ctk.CTkLabel(choose_location, text="Store Results In:", font=("Helvetica", 14))
-    message_label2.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-    input_text2 = ctk.CTkEntry(choose_location, font=("Helvetica", 16))
+    message_label2.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+    input_text2 = ctk.CTkTextbox(choose_location, font=("Helvetica", 13), height=1)
     input_text2.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
-    choose_file2 = ctk.CTkButton(choose_location, text="Choose File",font=("romnea",13))
+    choose_file2 = ctk.CTkButton(choose_location, text="Choose Path",font=("romnea",13), command=lambda: get_path_and_insert_text_to_input(input_text2))
     choose_file2.grid(row=0, column=2, padx=10, sticky="w")
     choose_location.grid_columnconfigure(1, weight=1)  
 
     # Output Results  
     output_frame1 = ctk.CTkFrame(app, corner_radius=15)
-    output_frame1.pack(pady=20, padx=20, fill="x")
+    output_frame1.pack(pady=5, padx=20, fill="x")
 
     output_label = ctk.CTkLabel(output_frame1, text="Results:", font=("Helvetica", 14))
     output_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
@@ -187,7 +195,7 @@ def create_app():
     output_frame1.grid_columnconfigure(1, weight=1)
 
     # Perform Action Button
-    action_button1 = ctk.CTkButton(app, text="Start", font=("romnea", 14), command=lambda: perform_action(input_text, output_text, password_entry, action_var, out_var))
+    action_button1 = ctk.CTkButton(app, text="Start", font=("romnea", 14), command=lambda: perform_action(input_text, output_text, password_entry, action_var, out_var,input_text2.get("1.0", "end-1c")))
     action_button1.pack(pady=15)
 
     app.mainloop()
