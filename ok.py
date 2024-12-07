@@ -71,36 +71,66 @@
 # if __name__ == "__main__":
 #     create_app()
 
+# import customtkinter as ctk
+
+# # Initialize the app
+# app = ctk.CTk()
+# app.geometry("400x300")
+
+# def show_frame1():
+#     frame2.pack_forget()
+#     frame1.pack()
+
+# def show_frame2():
+#     frame1.pack_forget()
+#     frame2.pack()
+
+# # Frame 1
+# frame1 = ctk.CTkFrame(app, width=300, height=200)
+# frame1.pack()
+# label1 = ctk.CTkLabel(frame1, text="This is Frame 1")
+# label1.pack()
+
+# # Frame 2
+# frame2 = ctk.CTkFrame(app, width=300, height=200)
+# label2 = ctk.CTkLabel(frame2, text="This is Frame 2")
+# label2.pack()
+
+# # Buttons to switch between frames
+# btn1 = ctk.CTkButton(app, text="Show Frame 1", command=show_frame1)
+# btn1.pack(side="left", padx=10)
+
+# btn2 = ctk.CTkButton(app, text="Show Frame 2", command=show_frame2)
+# btn2.pack(side="right", padx=10)
+
+# app.mainloop()
+
+
 import customtkinter as ctk
 
-# Initialize the app
+# Initialize the main application window
 app = ctk.CTk()
 app.geometry("400x300")
+app.title("Clear Background Example")
 
-def show_frame1():
-    frame2.pack_forget()
-    frame1.pack()
+# Set a background color for the parent window
+app.configure(fg_color="blue")  # Set window background color
 
-def show_frame2():
-    frame1.pack_forget()
-    frame2.pack()
+# Button without a specific background color
+button = ctk.CTkButton(
+    master=app,
+    text="Click Me",
+    fg_color= "yellow" # Inherits parent's background color
+)
+button.pack(pady=20)
 
-# Frame 1
-frame1 = ctk.CTkFrame(app, width=300, height=200)
-frame1.pack()
-label1 = ctk.CTkLabel(frame1, text="This is Frame 1")
-label1.pack()
+# Label without a specific background color
+label = ctk.CTkLabel(
+    master=app,
+    text="Hello, CustomTkinter!",
+    fg_color="red"  # Inherits parent's background color
+)
+label.pack(pady=20)
 
-# Frame 2
-frame2 = ctk.CTkFrame(app, width=300, height=200)
-label2 = ctk.CTkLabel(frame2, text="This is Frame 2")
-label2.pack()
-
-# Buttons to switch between frames
-btn1 = ctk.CTkButton(app, text="Show Frame 1", command=show_frame1)
-btn1.pack(side="left", padx=10)
-
-btn2 = ctk.CTkButton(app, text="Show Frame 2", command=show_frame2)
-btn2.pack(side="right", padx=10)
-
+# Run the application
 app.mainloop()

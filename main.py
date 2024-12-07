@@ -66,7 +66,6 @@ def insert_text_to_input(input_field):
 def create_app():
     # Configure the appearance of customtkinter
     def switch_event():
-    # print("switch toggled, current value:", switch_var.get())
         if switch_var.get() == "off":
             ctk.set_appearance_mode("Dark")  # Modes: "Dark", "Light"
         else:       
@@ -76,7 +75,7 @@ def create_app():
     app = ctk.CTk()
 
     app.title("SAR SOM NGAT") # Set the title of the window
-    app.geometry("900x600")
+    app.geometry("900x750")
     #set the icon
     
     

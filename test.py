@@ -130,6 +130,7 @@ def create_app():
     encrypt_radio.pack(side="left", padx=10)
     decrypt_radio = ctk.CTkRadioButton(action_frame, text="Decrypt", variable=action_var, value="Decrypt")
     decrypt_radio.pack(side="left", padx=10)
+    
     # Output Selection
     OP_frame = ctk.CTkFrame(action_frame, corner_radius=0, fg_color="transparent")
     OP_frame.pack(padx=5, fill="x")
