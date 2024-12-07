@@ -105,32 +105,3 @@
 
 # app.mainloop()
 
-
-import customtkinter as ctk
-
-# Initialize the main application window
-app = ctk.CTk()
-app.geometry("400x300")
-app.title("Clear Background Example")
-
-# Set a background color for the parent window
-app.configure(fg_color="blue")  # Set window background color
-
-# Button without a specific background color
-button = ctk.CTkButton(
-    master=app,
-    text="Click Me",
-    fg_color= "yellow" # Inherits parent's background color
-)
-button.pack(pady=20)
-
-# Label without a specific background color
-label = ctk.CTkLabel(
-    master=app,
-    text="Hello, CustomTkinter!",
-    fg_color="red"  # Inherits parent's background color
-)
-label.pack(pady=20)
-
-# Run the application
-app.mainloop()
