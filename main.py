@@ -15,6 +15,7 @@ LOGO = "projectpy/image/logo.png"
 LOGO1 = "image/logo.png"
 
 # Function to handle encryption and decryption
+# present by Phum Pidun
 def perform_action(input_field, output_field, password_field, action_var, out_var,op_path=""):
     message = input_field.get("1.0", "end-1c").strip() # 1.0 is the start of the text and end-1c is the end of the text without the last character (newline) 
     password = password_field.get().strip() # Remove leading and trailing whitespaces
@@ -28,7 +29,8 @@ def perform_action(input_field, output_field, password_field, action_var, out_va
         if out_type == "File":
             if op_path == "":
                 raise ValueError("No output path selected")
-            messagebox.showinfo("File", "Output saved to "+op_path)
+            else:
+                f.create_file(output_field.get("1.0", "end-1c"), op_path) # 1.0 is the start of the text and end-1c is the end of the text without the last character (newline)
         elif out_type == "none":
             pass
     except Exception as err:
@@ -47,7 +49,7 @@ def perform_action(input_field, output_field, password_field, action_var, out_va
     except Exception as err:
         messagebox.showerror("Action Error", str(err))
 
-
+# present by Phum Pidun
 def copy_to_clipboard(text):
     root = ctk.CTk()
     root.withdraw() # Hide the main window
@@ -57,18 +59,21 @@ def copy_to_clipboard(text):
     root.destroy() # Close the window
     messagebox.showinfo("Copied", "Output copied to clipboard!")
 
+# present by Panha
 def insert_text_to_input(input_field):
     text = f.choose_msg_from_file()
     print(text)
     input_field.delete("1.0", "end") # 1.0 is the start of the text and end is the end of the text
     input_field.insert("1.0", text)
     messagebox.showinfo("Text Loaded", "Text loaded successfully!")
+# present by Panha
 def get_path_and_insert_text_to_input(input_field):
     text = f.get_only_path()
     input_field.delete("1.0", "end") # 1.0 is the start of the text and end is the end of the text
     input_field.insert("1.0", text)
     
 
+# present by Panha
 # Main application function
 def create_app():
     # Configure the appearance of customtkinter
