@@ -1,10 +1,9 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from encrypt import encrypt
-from decrypt import decrypt
+from assets.encrypt import encrypt
+from assets.decrypt import decrypt
 from PIL import Image
-from filemsg import filemsg
-from asset.mydailog import CustomDialog
+from assets.filemsg import filemsg
 
 # Initialize Encrypt and Decrypt objects
 e = encrypt()
@@ -15,7 +14,6 @@ LOGO = "projectpy/image/logo.png"
 LOGO1 = "image/logo.png"
 
 # Function to handle encryption and decryption
-# present by Phum Pidun
 def perform_action(input_field, output_field, password_field, action_var, out_var,op_path=""):
     message = input_field.get("1.0", "end-1c").strip() # 1.0 is the start of the text and end-1c is the end of the text without the last character (newline) 
     password = password_field.get().strip() # Remove leading and trailing whitespaces
@@ -25,17 +23,6 @@ def perform_action(input_field, output_field, password_field, action_var, out_va
 
     action = action_var.get()
     out_type = out_var.get()
-    try:
-        if out_type == "File":
-            if op_path == "":
-                raise ValueError("No output path selected")
-            else:
-                f.create_file(output_field.get("1.0", "end-1c"), op_path) # 1.0 is the start of the text and end-1c is the end of the text without the last character (newline)
-        elif out_type == "none":
-            pass
-    except Exception as err:
-        messagebox.showerror("Action Error", str(err))
-      
     try:
         if action == "Encrypt":
             result = e.encrypt(message, password) # Encrypt the message
@@ -49,8 +36,20 @@ def perform_action(input_field, output_field, password_field, action_var, out_va
     except Exception as err:
         messagebox.showerror("Action Error", str(err))
 
-# present by Phum Pidun
-def copy_to_clipboard(text):
+
+    try:
+        if out_type == "File":
+            if op_path == "":
+                raise ValueError("No output path selected")
+            else:
+                f.create_file(output_field.get("1.0", "end-1c"), op_path) # 1.0 is the start of the text and end-1c is the end of the text without the last character (newline)
+        elif out_type == "none":
+            pass
+    except Exception as err:
+        messagebox.showerror("Action Error", str(err))
+      
+#Copy the output
+def copy_to_clipboard(text): 
     root = ctk.CTk()
     root.withdraw() # Hide the main window
     root.clipboard_clear() # Clear the clipboard
@@ -59,21 +58,19 @@ def copy_to_clipboard(text):
     root.destroy() # Close the window
     messagebox.showinfo("Copied", "Output copied to clipboard!")
 
-# present by Panha
+# insert text to output
 def insert_text_to_input(input_field):
     text = f.choose_msg_from_file()
-    print(text)
     input_field.delete("1.0", "end") # 1.0 is the start of the text and end is the end of the text
     input_field.insert("1.0", text)
     messagebox.showinfo("Text Loaded", "Text loaded successfully!")
-# present by Panha
+
+# insert path to output
 def get_path_and_insert_text_to_input(input_field):
-    text = f.get_only_path()
+    text = f.get_only_path() 
     input_field.delete("1.0", "end") # 1.0 is the start of the text and end is the end of the text
     input_field.insert("1.0", text)
     
-
-# present by Panha
 # Main application function
 def create_app():
     # Configure the appearance of customtkinter
@@ -89,15 +86,11 @@ def create_app():
     app.title("SAR SOM NGAT") # Set the title of the window
     app.geometry("900x750")
     #set the icon
-    
-    
     try:
         app.iconbitmap("projectpy/image/logo.ico")
     except:
         app.iconbitmap("image/logo.ico")
     
-
-
     # Header
     header_frame = ctk.CTkFrame(app, corner_radius=15)
     header_frame.pack(pady=10, padx=20, fill="x")
@@ -157,7 +150,6 @@ def create_app():
             action_button1.pack_forget()
             output_frame1.pack(pady=5, padx=20, fill="x")
             action_button1.pack(pady=15)
-
         elif out_var.get() == "File":
             output_frame1.pack_forget()
             action_button1.pack_forget()
@@ -204,7 +196,6 @@ def create_app():
     action_button1.pack(pady=15)
 
     app.mainloop()
-
 
 if __name__ == "__main__":
     create_app()

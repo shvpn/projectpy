@@ -1,4 +1,4 @@
-from asset.crypt import Message
+from assets.crypt import Message
 import base64
 class encrypt(Message):
     def __init__(self):
