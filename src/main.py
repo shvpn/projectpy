@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from assets.encrypt import encrypt
-from assets.decrypt import decrypt
+from encrypt import encrypt
+from decrypt import decrypt
 from PIL import Image
-from assets.filemsg import filemsg
+from filemsg import filemsg
 
 # Initialize Encrypt and Decrypt objects
 e = encrypt()

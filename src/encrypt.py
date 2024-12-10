@@ -1,4 +1,4 @@
-from assets.crypt import Message
+from asset.crypt import Message
 import base64
 class encrypt(Message):
     def __init__(self):
@@ -10,6 +10,7 @@ class encrypt(Message):
         if password is not None:
             self.__password = password
         self.__message=self.cb(self.__message, self.__password)
+        print(self.__message)
         if isinstance(self.__message, list):
             return self.__message[0]
         else:
