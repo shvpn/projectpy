@@ -2,7 +2,6 @@ import customtkinter as ctk
 from tkinter import messagebox, filedialog
 import tkinter as tk
 import os
-import datetime
 
 #present by Vanndy
 
