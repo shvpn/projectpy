@@ -1,5 +1,6 @@
 import customtkinter as ctk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
+import tkinter as tk
 import os
 import datetime
 
@@ -30,12 +31,13 @@ class filemsg: #class to handle file operations
         else: #if no error
             return self.msg #return the message
             messagebox.showinfo("File Loaded", "Message loaded successfully!") #show a success message
+    
     def get_only_path(self): #sectct path to output folder
-
-        root = ctk.CTk() #create a window
         try:
-            self.input_path = ctk.filedialog.askdirectory() #select a folder
-            root.destroy() # Close the window 
+            self.input_path = filedialog.asksaveasfilename(
+                defaultextension=".txt",
+                filetypes=(("Text files", "*.txt"), ("Config Files", "*.conf;*.json"), ("All files", "*.*"))
+            )
             if self.input_path: #if a folder is selected
                 return self.input_path #return the path
             else: #if no folder is selected
@@ -44,16 +46,16 @@ class filemsg: #class to handle file operations
             return "File Not Loaded" #return an error message
         else: #if no error
             return self.input_path #return the path
+    
     def create_file(self, text, path=""): #create a file with the provided text
         #create a file with the text provided with name as the current date and time in pm/am format
         try:
-            file_name = datetime.datetime.now().strftime("%Y-%m-%d_%I-%M-%S %p") + "_Output.txt" 
             #check if file exists
-            if os.path.exists(path + "/" + file_name):
+            if os.path.exists(path):
                 messagebox.showwarning("File Exists", "The file already exists please wait for a second")
                 raise ValueError("File Exists") #raise an error
             else: #if the file does not exist
-                with open(path + "/" + file_name, "w") as file: #open the file
+                with open(path, "w") as file: #open the file
                     file.write(text) #write the text to the file
         except Exception as e: #if an error occurs
             messagebox.showerror("File Error", str(e)) #show an error message
