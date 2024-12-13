@@ -9,7 +9,6 @@ from filemsg import filemsg
 e = encrypt()
 d = decrypt()
 f = filemsg()
-OUTPUT_FILE = "output.txt"
 LOGO = "projectpy/image/logo.png"
 LOGO1 = "image/logo.png"
 
